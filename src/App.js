@@ -1,25 +1,61 @@
-import logo from './logo.svg';
+import React, {useState, useEffect} from 'react';
+// import axios from 'axios';
 import './App.css';
+import Header from './components/Header';
+import GameCard from './components/GameCard';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+const App = () => {
+  const [gameData, setGameData] = useState(
+    [{"GameTitle":"Before and After","GameDescription":"Before and After Yr 2 (prefix and suffix)","Topic":"Word Works and Spelling","Group":"Academic","Level":"Key Stage 1","Subject":"English","GameImage":"https://partners.9ijakids.com/index.php/thumbnail?game=Before and After"},
+    {"GameTitle":"Communication","GameDescription":"Communication Yr 2 (different ways we can communicate)","Topic":"Social Studies","Group":"Academic","Level":"Key Stage 1","Subject":"Social Studies","GameImage":"https://partners.9ijakids.com/index.php/thumbnail?game=Communication"},
+    {"GameTitle":"Kiddiepreneur 101","GameDescription":"Kiddiepreneur 101 (Intro to Earning and Spending)","Topic":"Financial Literacy","Group":"Financial Literacy","Level":"Financial Literacy","Subject":"Financial Literacy","GameImage":"https://partners.9ijakids.com/index.php/thumbnail?game=Kiddiepreneur 101"},
+    {"GameTitle":"Money Matters","GameDescription":"Money Matters (Intro to Key Financial Terms)","Topic":"Financial Literacy","Group":"Financial Literacy","Level":"Financial Literacy","Subject":"Financial Literacy","GameImage":"https://partners.9ijakids.com/index.php/thumbnail?game=Money Matters"},
+    {"GameTitle":"Maths Pop","GameDescription":"Maths Pop (writing numbers in word, sequencing & ordinal numbers)","Topic":"Number Sense","Group":"Academic","Level":"Key Stage 1","Subject":"Mathematics","GameImage":"https://partners.9ijakids.com/index.php/thumbnail?game=Maths Pop"},
+    {"GameTitle":"Exploring Life","GameDescription":"Exploring Life KS","Topic":"Living Things & Non-Living Things","Group":"Academic","Level":"Key Stage 1","Subject":"Science","GameImage":"https://partners.9ijakids.com/index.php/thumbnail?game=Exploring Life"},
+    {"GameTitle":"Mathsmania City - Decimals","GameDescription":"Mathsmania City - Decimal","Topic":"Decimals, Fractions & Percentage","Group":"Academic","Level":"Key Stage 2","Subject":"Mathematics","GameImage":"https://partners.9ijakids.com/index.php/thumbnail?game=Mathsmania City - Decimals"}]
   );
+  const [gameDataCopy, setGameDataCopy] = useState(
+    [{"GameTitle":"Before and After","GameDescription":"Before and After Yr 2 (prefix and suffix)","Topic":"Word Works and Spelling","Group":"Academic","Level":"Key Stage 1","Subject":"English","GameImage":"https://partners.9ijakids.com/index.php/thumbnail?game=Before and After"},
+    {"GameTitle":"Communication","GameDescription":"Communication Yr 2 (different ways we can communicate)","Topic":"Social Studies","Group":"Academic","Level":"Key Stage 1","Subject":"Social Studies","GameImage":"https://partners.9ijakids.com/index.php/thumbnail?game=Communication"},
+    {"GameTitle":"Kiddiepreneur 101","GameDescription":"Kiddiepreneur 101 (Intro to Earning and Spending)","Topic":"Financial Literacy","Group":"Financial Literacy","Level":"Financial Literacy","Subject":"Financial Literacy","GameImage":"https://partners.9ijakids.com/index.php/thumbnail?game=Kiddiepreneur 101"},
+    {"GameTitle":"Money Matters","GameDescription":"Money Matters (Intro to Key Financial Terms)","Topic":"Financial Literacy","Group":"Financial Literacy","Level":"Financial Literacy","Subject":"Financial Literacy","GameImage":"https://partners.9ijakids.com/index.php/thumbnail?game=Money Matters"},
+    {"GameTitle":"Maths Pop","GameDescription":"Maths Pop (writing numbers in word, sequencing & ordinal numbers)","Topic":"Number Sense","Group":"Academic","Level":"Key Stage 1","Subject":"Mathematics","GameImage":"https://partners.9ijakids.com/index.php/thumbnail?game=Maths Pop"},
+    {"GameTitle":"Exploring Life","GameDescription":"Exploring Life KS","Topic":"Living Things & Non-Living Things","Group":"Academic","Level":"Key Stage 1","Subject":"Science","GameImage":"https://partners.9ijakids.com/index.php/thumbnail?game=Exploring Life"},
+    {"GameTitle":"Mathsmania City - Decimals","GameDescription":"Mathsmania City - Decimal","Topic":"Decimals, Fractions & Percentage","Group":"Academic","Level":"Key Stage 2","Subject":"Mathematics","GameImage":"https://partners.9ijakids.com/index.php/thumbnail?game=Mathsmania City - Decimals"}]
+  );
+  const [filterData, setFilterData] = useState([]);
+
+  // useEffect(()=> {
+  //   axios.get('https://partners.9ijakids.com/index.php?partnerId=555776&accessToken=l0lawtvv-94bv-oi4d-u808-5ubz&action=catalogfilter')
+  //   .then(data => {
+  //     console.log(data)
+  //     setGameData(data)
+  //   })
+  // },[])
+
+  const handleSearch = (data) => {
+    setFilterData(gameDataCopy)
+    const searchLists = gameData.filter((game) => game.Topic.toLowerCase().includes(data))
+    setGameData(searchLists);
+  }
+
+  const handleFilter = (data) => {
+    setFilterData(gameDataCopy)
+    if (filterData.length !== 0) {
+      const filterLists = filterData.filter((game) => game.Group === data || game.Level === data)
+      setGameData(filterLists)
+    }
+  }
+
+  return (
+    <div className="main-wrapper">
+      <Header handleSearch={handleSearch} handleFilter={handleFilter}/>
+      <GameCard data={gameData} />
+    </div>
+  )
+
 }
+
 
 export default App;
